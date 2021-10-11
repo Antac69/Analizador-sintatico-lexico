@@ -18,25 +18,29 @@ const obtenerLexemas = async () => {
 
 function buscar(listaDePalabras) {
   let subTokens =[];
+  let encontrados = [];
   let noencontrados = [];
   listaDePalabras.forEach((palabra)=>{
     lexemas.filter((item) => {
       if (item.nombre == palabra) {
-        console.log(item);
         subTokens.push(item);
-      }else if (subTokens.includes(palabra) && !noencontrados.includes(palabra)){
+      }/* else if (item.nombre != palabra && subTokens.includes(item)){
+        console.log('No se encontro',palabra)
         noencontrados.push(palabra);
-        console.log(noencontrados);
-      }
+      } */
     });
-    if (palabra != '') {
-      temp = {
-        nombre: palabra,
-        tipo: "identidicador",
-        codigo: "101"
-      };
-      subTokens.push(temp);
-    }
+    console.log(noencontrados)
+    noencontrados.forEach(item=>{
+      console.log(subTokens[subTokens.length-1].nombre)
+      if (palabra !== '' &&  palabra == item) {
+        temp = {
+          nombre: palabra,
+          tipo: "identidicador",
+          codigo: "101"
+        };
+        subTokens.push(temp);
+      }
+    })
   });
   tokens.push(subTokens);
   console.log(subTokens,tokens);
