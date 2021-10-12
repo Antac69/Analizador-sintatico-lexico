@@ -18,39 +18,39 @@ const obtenerLexemas = async () => {
 
 function buscar(listaDePalabras) {
   let subTokens =[];
-  let encontrados = [];
-  let noencontrados = [];
   listaDePalabras.forEach((palabra)=>{
-    lexemas.filter((item) => {
-      if (item.nombre == palabra) {
-        subTokens.push(item);
-      }else{
-/*         console.log(subTokens,item) */
-        if (item.nombre !== palabra && subTokens.includes(item)){
-          console.log('no se encontro',palabra);
-
+    lexemas.some((item)=> item.nombre == palabra)?
+      lexemas.filter((item) => {
+        if (item.nombre == palabra) {
+          subTokens.push(item);
         }
-      }
-      /* else if (item.nombre != palabra && subTokens.includes(item)){
-        console.log('No se encontro',palabra)
-        noencontrados.push(palabra);
-      } */
-    });
-    console.log(noencontrados)
-    noencontrados.forEach(item=>{
-      console.log(subTokens[subTokens.length-1].nombre)
-      if (palabra !== '' &&  palabra == item) {
-        temp = {
-          nombre: palabra,
-          tipo: "identidicador",
-          codigo: "101"
-        };
-        subTokens.push(temp);
-      }
-    })
+      })
+    : comprobarPalabraNoEncontrada(palabra) !== undefined ?
+      subTokens.push(comprobarPalabraNoEncontrada(palabra)):
+      console.log('es un estring vacio')
+      ;
   });
   tokens.push(subTokens);
   console.log(subTokens,tokens);
+}
+
+function comprobarPalabraNoEncontrada(palabra){
+/*   console.log('No se encontro',palabra); */
+  let temp;
+  if(typeof(palabra) == 'string' && palabra !== ''){
+    temp = {
+      nombre: palabra,
+      tipo: "identidicador",
+      codigo: "101"
+    }
+  }else if (typeof(palabra) === 'number'){
+    temp = {
+      nombre: palabra,
+      tipo: "numero",
+      codigo: "102"
+    }
+  }
+  return temp;
 }
 
 function dividirLineas(cadenas){
