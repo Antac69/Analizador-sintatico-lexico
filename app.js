@@ -24,7 +24,14 @@ function buscar(listaDePalabras) {
     lexemas.filter((item) => {
       if (item.nombre == palabra) {
         subTokens.push(item);
-      }/* else if (item.nombre != palabra && subTokens.includes(item)){
+      }else{
+/*         console.log(subTokens,item) */
+        if (item.nombre !== palabra && subTokens.includes(item)){
+          console.log('no se encontro',palabra);
+
+        }
+      }
+      /* else if (item.nombre != palabra && subTokens.includes(item)){
         console.log('No se encontro',palabra)
         noencontrados.push(palabra);
       } */
