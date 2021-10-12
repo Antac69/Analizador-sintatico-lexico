@@ -92,20 +92,36 @@ function dividirBloque(cadenas){
 }
 /* funcion que separa los casos */
 function comprobarCaso(bloques){
+  let respuestas = [];
+  let respuesta;
+  let i=0;
   bloques.forEach(item=>{
     item.startsWith('if')?
-      item.match(/if\(\w+\s[=|==|<=|>=|===|!=|!==]+\s\w+\){\s?(.*\s*?)*};?/g)?
-        console.log('compila correctamente el if'):
-        console.log('La linea '+bloques.indexOf(item)+' es incorrecta')
+      item.match(/if\(\s*?\w+\s*?[=|==|<=|>=|===|!=|!==]+\s*?\w+\s*?\){\s?(.*\s*?)*};?/g)?
+        respuesta =[i+1,'Compila correctamente el if']:
+        respuesta =[i+1,`El bloque de codigo ${bloques.indexOf(item)+1} es incorrecta`]
     : item.startsWith('const') |item.startsWith('var') |item.startsWith('let')?
         item.match(/[const|var|let]\s\w+\s?=?\s?\w+?;?\s?/g)?
-          console.log('compila correctamente el declaracion de variable'):
-          console.log('La linea '+bloques.indexOf(item)+' es incorrecta declaracion')
+        respuesta =[i+1,'Compila correctamente la declaración de variable']:
+        respuesta =[i+1,`El bloque de codigo ${bloques.indexOf(item)+1} es incorrecta`]
     :item.match(/\w+\s?=\s?\w+;?\s?/g)?
-        console.log('se inicializo correctamente')
-    :console.log('no reconosco esta sintaxis')
+        respuesta =[i+1,'se inicializo correctamente']
+    :respuesta =[i+1,'no reconosco esta sintaxis']
+    respuestas.push(respuesta);
+    console.log(respuestas);
+    i++;
   })
-
+  sintac.innerHTML=``;
+  respuestas.forEach(item=>{
+    sintac.innerHTML+=`
+    <p class='text-body-1'>
+    Bloque de codigo ${item[0]}
+    </p>
+    <p class='text-body-1'>
+    ${item[1]}
+    </p>
+    `;
+  })
 }
 /* funcion que divide el texto en lineas */
 function dividirLineas(cadenas){
@@ -139,4 +155,8 @@ cCodigo.addEventListener('submit', event=>{
   dividirPalabras(dividirLineas(codigo.value));
   comprobarCaso(dividirBloque(codigo.value));
   /*   dividirLineas() */
+})
+cCodigo.addEventListener('reset', event=>{
+  lexico.innerHTML=``;
+  sintac.innerHTML=``;
 })
