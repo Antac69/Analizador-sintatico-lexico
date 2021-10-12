@@ -180,6 +180,26 @@
         "codigo":"8"
     },
     {
+        "nombre": ">=",
+        "tipo": "simbolo",
+        "codigo":"8"
+    },
+    {
+        "nombre": "<=",
+        "tipo": "simbolo",
+        "codigo":"8"
+    },
+    {
+        "nombre": "!=",
+        "tipo": "simbolo",
+        "codigo":"8"
+    },
+    {
+        "nombre": "!==",
+        "tipo": "simbolo",
+        "codigo":"8"
+    },
+    {
         "nombre": ";",
         "tipo": "simbolo",
         "codigo":"5"

@@ -6,6 +6,7 @@ let cCodigo = document.getElementById("container_codigo");
 let lexemas;
 let tokens = [];
 
+/* obteniendo la informacion de la bd y pasandola a una variable local */
 const obtenerLexemas = async () => {
   try {
     const rs = await fetch("./lexemas.json");
@@ -31,19 +32,20 @@ function buscar(listaDePalabras) {
       ;
   });
   tokens.push(subTokens);
-  console.log(subTokens,tokens);
+  console.log(tokens);
+  return tokens;
 }
 
 function comprobarPalabraNoEncontrada(palabra){
 /*   console.log('No se encontro',palabra); */
   let temp;
-  if(typeof(palabra) == 'string' && palabra !== ''){
+  if(palabra !== '' && isNaN(palabra)){
     temp = {
       nombre: palabra,
       tipo: "identidicador",
       codigo: "101"
     }
-  }else if (typeof(palabra) === 'number'){
+  }else if (palabra !== '' && !isNaN(palabra)){
     temp = {
       nombre: palabra,
       tipo: "numero",
@@ -51,6 +53,11 @@ function comprobarPalabraNoEncontrada(palabra){
     }
   }
   return temp;
+}
+
+function dividirBloque(cadenas){
+  let bloques = cadenas.split(';\n')
+  console.log(bloques);
 }
 
 function dividirLineas(cadenas){
@@ -61,7 +68,9 @@ function dividirLineas(cadenas){
 function dividirPalabras(cadenas){
   cadenas.forEach((cadena)=>{
     cadena = cadena.replace(';',' ;');
-    cadena = cadena.replace('.',' ');
+    cadena = cadena.replace('=',' =');
+    cadena = cadena.replace('+',' +');
+    cadena = cadena.replace('.',' . ');
     cadena = cadena.replace('(',' ( ');
     cadena = cadena.replace(')',' ) ');
 /*     console.log(cadena) */
@@ -70,9 +79,11 @@ function dividirPalabras(cadenas){
     buscar(listaDePalabras);
   });
 }
+/* agregando la accion al form */
 cCodigo.addEventListener('submit', event=>{
   event.preventDefault();
   tokens=[];
   dividirPalabras(dividirLineas(codigo.value));
+  dividirBloque(codigo.value);
 /*   dividirLineas() */
 })
