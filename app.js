@@ -1,5 +1,5 @@
 window.addEventListener("DOMContentLoaded", () => obtenerLexemas());
-const lexico = document.getElementById("aLexico");
+const lexico = document.getElementById("datos");
 const sintac = document.getElementById("aSintactico");
 let codigo = document.getElementById("codigo");
 let cCodigo = document.getElementById("container_codigo");
@@ -37,7 +37,29 @@ function buscar(listaDePalabras) {
   });
   tokens.push(subTokens);
   console.log(tokens);
-  return tokens;
+  lexico.innerHTML=``;
+  tokens.forEach(item=>{
+    lexico.innerHTML+=`
+      <tr>
+      <td class='linea text-body-1' colspan='3'>
+      Linea ${tokens.indexOf(item) + 1}
+      </td>
+      </tr>`
+    item.forEach(item=>{
+      lexico.innerHTML+=`
+      <tr>
+      <td class="text-body-1">
+          ${item.nombre}
+      </td>
+      <td class="text-body-1">
+        ${item.tipo}
+      </td>
+      <td class="text-body-1">
+        ${item.codigo}
+      </td>
+    </tr>`;
+    })
+  })
 }
 
 /*  funcion que compara las palabras no encontradas*/
@@ -71,7 +93,6 @@ function dividirBloque(cadenas){
 /* funcion que separa los casos */
 function comprobarCaso(bloques){
   bloques.forEach(item=>{
-    console.log(typeof(item))
     item.startsWith('if')?
       item.match(/if\(\w+\s[=|==|<=|>=|===|!=|!==]+\s\w+\){\s?(.*\s*?)*};?/g)?
         console.log('compila correctamente el if'):
@@ -84,6 +105,7 @@ function comprobarCaso(bloques){
         console.log('se inicializo correctamente')
     :console.log('no reconosco esta sintaxis')
   })
+
 }
 /* funcion que divide el texto en lineas */
 function dividirLineas(cadenas){
